@@ -50,7 +50,7 @@ And here. | Okay. | I think we get it.
 
 const initialState = {
   input: initialInput,
-  html: marked.parse(initialInput),
+  html: marked.parse(initialInput, {breaks: true}),
 };
 
 class Editor extends React.Component {
@@ -61,11 +61,17 @@ class Editor extends React.Component {
   }
   
   handleChange(e) {
-    console.log(e.target.value);
     this.setState({
       input: e.target.value,
       html: marked.parse(e.target.value, {breaks: true}),
     });
+  }
+
+  componentDidMount() {
+    applyClasses();
+  }
+  componentDidUpdate() {
+    applyClasses();
   }
 
   render() {
@@ -102,6 +108,33 @@ class App extends React.Component {
       </div>
     );
   }
+}
+
+function applyClasses() {
+  const tables = Array.from(document.getElementsByTagName('table'));
+  tables.forEach((table) => {
+    table.classList.add('table','table-dark','table-hover');
+  })
+  const images = Array.from(document.getElementsByTagName('img'));
+  images.forEach((image) => {
+    image.classList.add('img-fluid');
+  });
+  const codes = Array.from(document.getElementsByTagName('code'));
+  codes.forEach((code) => {
+    code.classList.add('bg-dark', 'p-1');
+  });
+  const pres = Array.from(document.getElementsByTagName('pre'));
+  pres.forEach((pre) => {
+    pre.classList.add('bg-dark', 'p-1');
+  });
+  const blockquotes = Array.from(document.getElementsByTagName('blockquote'));
+  blockquotes.forEach((blockquote) => {
+    blockquote.classList.add('blockquote');
+  });
+  const links = Array.from(document.getElementsByTagName('a'));
+  links.forEach((link) => {
+    link.classList.add('link-warning');
+  });
 }
 
 export default App;
